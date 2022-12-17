@@ -55,14 +55,12 @@ def send_message(bot: telegram.Bot, message: str) -> bool:
 
 
 def get_api_answer(timestamp: int) -> str:
-
     """Делаем запрос на сервер ЯП."""
     timestamp = timestamp or int(time.time())
     params = {'from_date': timestamp}
     try:
         response = requests.get(
-            ENDPOINT, headers=HEADERS, params=params
-            )
+            ENDPOINT, headers=HEADERS, params=params)
     except Exception:
         err_msg = 'endpoint {} is unavailable.'.format(
             response
@@ -74,6 +72,7 @@ def get_api_answer(timestamp: int) -> str:
         )
         raise APIstatusCodeNot200(err_msg)
     return response.json()
+
 
 def check_response(response: dict) -> list:
     """Проверяет ответ API."""
@@ -87,6 +86,7 @@ def check_response(response: dict) -> list:
     if not homeworks:
         raise KeyError('В ключе "homeworks" нет значений')
     return homeworks
+
 
 def parse_status(homework: dict) -> str:
     """Извлеает информацию о статусе домашней работы."""
