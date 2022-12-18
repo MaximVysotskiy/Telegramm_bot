@@ -52,16 +52,14 @@ def get_api_answer(timestamp: int) -> str:
             ENDPOINT, headers=HEADERS, params=params)
         if response.status_code != HTTPStatus.OK:
             err_msg = 'Код запроса не 200 и равен: {}.'.format(
-                 response.status_code
-            )
+                response.status_code)
             raise APIstatusCodeNot200(err_msg)
         return response.json()
-    except JSONDecodeError:
-        raise RequestException('Ошибка преобразования json')
+    except JSONDecodeError as error:
+        raise RequestException(f'Ошибка преобразования json {error}')
     except requests.RequestException as error:
         raise RequestException(f'Что то пошло не так {error}')
-        
-
+     
 
 def check_response(response: dict) -> list:
     """Проверяет ответ API."""
@@ -137,7 +135,7 @@ def main():
 
 if __name__ == '__main__':
     logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[logging.StreamHandler(stream=sys.stdout)])
+        level=logging.DEBUG,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=[logging.StreamHandler(stream=sys.stdout)])
     main()
