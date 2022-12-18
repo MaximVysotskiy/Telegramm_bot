@@ -59,11 +59,11 @@ def get_api_answer(timestamp: int) -> str:
         raise RequestException(f'Ошибка преобразования json {error}')
     except requests.RequestException as error:
         raise RequestException(f'Что то пошло не так {error}')
-     
+
 
 def check_response(response: dict) -> list:
     """Проверяет ответ API."""
-    logging.info(f'Начало проверки ответа сервера')
+    logging.info(f'Начало проверки ответа сервера {response}')
     if not isinstance(response, dict):
         raise TypeError('Ответ от API не является словарём')
     if 'homeworks' not in response:
