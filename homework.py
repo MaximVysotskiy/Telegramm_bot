@@ -66,10 +66,9 @@ def check_response(response: dict) -> list:
     logging.info(f'Начало проверки ответа сервера {response}')
     if not isinstance(response, dict):
         raise TypeError('Ответ от API не является словарём')
-    if 'homeworks' not in response:
-        raise KeyError(f'Ключ "homeworks" не найден в {response}')
-    if 'current_date' not in response:
-        raise KeyError(f'Ключ "current_date" не найден в {response}')
+    if 'homeworks' and 'current_date' not in response:
+        raise KeyError(
+            f'Ключи "homeworks" и "current_date" не найдены в {response}')
     if not isinstance(response['homeworks'], list):
         raise TypeError('В ключе "homeworks" нет списка')
     homeworks = response.get('homeworks')
@@ -80,9 +79,11 @@ def check_response(response: dict) -> list:
 
 def parse_status(homework: dict) -> str:
     """Извлеает информацию о статусе домашней работы."""
-    if 'homework_name' not in homework:
-        raise KeyError('Отсутствует ключ "homework_name" в отвте API')
-    homework_name = homework['homework_name']
+    if not homework.get('homework_name'):
+        homework_name = 'No name'
+        logging.warning('Отсутствует имя домашней работы.')
+    else:
+        homework_name = homework.get('homework_name')
     homework_status = homework.get('status')
     if 'status' not in homework:
         message = 'Отсутстует ключ homework_status.'
