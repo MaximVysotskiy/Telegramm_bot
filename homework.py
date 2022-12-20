@@ -79,6 +79,7 @@ def check_response(response: dict) -> list:
 
 def parse_status(homework: dict) -> str:
     """Извлеает информацию о статусе домашней работы."""
+    homework_name = homework.get('homework_name')
     if not homework.get('homework_name'):
         raise KeyError('Отсутствует ключ "homework_name" в отвте API')
     homework_status = homework.get('status')
