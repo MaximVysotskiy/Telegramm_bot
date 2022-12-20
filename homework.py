@@ -81,8 +81,6 @@ def parse_status(homework: dict) -> str:
     """Извлеает информацию о статусе домашней работы."""
     if not homework.get('homework_name'):
         raise KeyError('Отсутствует ключ "homework_name" в отвте API')
-    else:
-        homework_name = homework.get('homework_name')
     homework_status = homework.get('status')
     if 'status' not in homework:
         message = 'Отсутстует ключ homework_status.'
